@@ -1,0 +1,109 @@
+using System;
+class HelloWorld {
+  static void Main() {
+    Console.WriteLine("Алгоритм Краскала");
+    Console.WriteLine("Введите колво вершин");
+    int n = Convert.ToInt32(Console.ReadLine());
+    int[,] mas = new int[n,n];
+    string[] ver = new string[n];
+    int max,min,sum,xn,yn;
+    max = 0;
+    sum = 0;
+    xn = 0;
+    yn = 0;
+    string stri = "";
+    Console.WriteLine("Введите колво рёбер");
+    int r = Convert.ToInt32(Console.ReadLine());
+    for(int i = 0; i < r; i ++){
+        Console.WriteLine("Введите 1 вершину");
+        int x = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите 2 вершину");
+        int y = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Введите длину");
+        int m = Convert.ToInt32(Console.ReadLine());
+        mas[x-1,y-1] = m;
+        mas[y-1,x-1] = m;
+        if (max < m) max = m+1;
+    }
+    
+/*    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            Console.Write(mas[i,j]);
+        }
+        Console.WriteLine("");
+    }*/
+    int c = 0;
+    while (c < n-1){
+        min = max;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if ((mas[i,j]< min)&&(mas[i,j] != 0)){
+                    min = mas[i,j];
+                    xn = i;
+                    yn = j;
+                }
+            }
+        }
+        
+        int xnc = 0;
+        int ync = 0;
+        int ni = 0;
+        int nj = 0;
+        for(int i = 0; i < n; i++){
+            ver[i] += "0";
+            string tx = Convert.ToString(xn +1);
+            string ty = Convert.ToString(yn +1);
+            string st = ver[i];
+            Convert.ToString(st.IndexOf(tx));
+            if (st.IndexOf(tx) != -1){
+                xnc +=1;
+                ni = i;
+            }
+            if (st.IndexOf(ty) != -1){
+                ync ++;
+                nj = i;
+            }
+            
+        }
+        
+        if(xnc + ync == 0){
+            ver[c] += Convert.ToString(xn+1) + Convert.ToString(yn+1);
+            sum += mas[xn,yn];
+            mas[yn,xn] = 0;
+            mas[xn,yn] =0;
+            
+            c++;
+        }
+        else{
+            if(xnc + ync ==1){
+                if (xnc > ync){
+                    ver[ni] += Convert.ToString(yn+1);
+                    sum += mas[xn,yn];
+                    mas[yn,xn] = 0;
+                    c++;
+                    mas[xn,yn] =0;
+                }
+                else{
+                    ver[nj] += Convert.ToString(xn+1);
+                    sum += mas[xn,yn];
+                    mas[yn,xn] = 0;
+                    c++;
+                    mas[xn,yn] =0;
+                }
+            }
+            if (xnc + ync == 2){
+                stri =  ver[nj]+"";
+                ver[ni] = ver[ni].Replace(Convert.ToString(xn+1),"");
+                ver[nj] = ver[ni].Replace(Convert.ToString(yn+1),"");
+                ver[ni] += stri;
+                sum += mas[xn,yn];
+                mas[yn,xn] = 0;
+                c++;
+                mas[xn,yn] =0;
+            }
+        }
+        
+    }
+    Console.WriteLine(sum);
+  }
+}
